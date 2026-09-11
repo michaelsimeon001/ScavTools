@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
+import { JwtTokenHighlight } from "@/components/tools/jwt-token-highlight"
 
 function formatDuration(ms: number): string {
   const totalSeconds = Math.floor(Math.abs(ms) / 1000)
@@ -119,6 +120,8 @@ export function JwtDecoder() {
           </Button>
           {error && <p className="text-sm text-destructive">{error}</p>}
         </div>
+
+        {(decodedHeader || decodedPayload) && <JwtTokenHighlight token={jwt} />}
 
         {(decodedHeader || decodedPayload) && (
           <Tabs defaultValue="payload">
