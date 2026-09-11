@@ -2,12 +2,13 @@
 
 import { useState } from "react"
 import type React from "react"
-import { Copy, UploadCloud } from "lucide-react"
+import { UploadCloud } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { generateHashes as computeHashes, generateHashesFromBuffer } from "@/lib/hash"
+import { CopyHashButton } from "@/components/tools/copy-hash-button"
 
 const MAX_FILE_SIZE_BYTES = 25 * 1024 * 1024 // 25 MB
 
@@ -71,10 +72,6 @@ export function HashGenerator() {
     if (file) hashFile(file)
   }
 
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text)
-  }
-
   return (
     <Card className="mx-auto max-w-3xl">
       <CardHeader>
@@ -129,17 +126,7 @@ export function HashGenerator() {
               <div className="bg-muted p-4 rounded-md overflow-x-auto">
                 <pre className="text-sm break-all whitespace-pre-wrap">{hash || "Hash will appear here"}</pre>
               </div>
-              {hash && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="absolute top-2 right-2"
-                  onClick={() => copyToClipboard(hash)}
-                >
-                  <Copy className="h-4 w-4" />
-                  <span className="sr-only">Copy to clipboard</span>
-                </Button>
-              )}
+              {hash && <CopyHashButton hash={hash} />}
             </TabsContent>
           ))}
         </Tabs>
