@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
+import { validateBase64 } from "@/lib/base64-validate"
 
 export function Base64Tool() {
   const [mode, setMode] = useState<"encode" | "decode">("encode")
@@ -27,12 +28,20 @@ export function Base64Tool() {
   }
 
   const decodeBase64 = () => {
+    const validationError = validateBase64(inputText)
+    if (validationError) {
+      setError(validationError)
+      setOutputText("")
+      return
+    }
+
     try {
       setError("")
       const decoded = atob(inputText)
       setOutputText(decoded)
     } catch (err) {
       setError("Error decoding from Base64. Make sure the input is valid Base64.")
+      setOutputText("")
     }
   }
 
