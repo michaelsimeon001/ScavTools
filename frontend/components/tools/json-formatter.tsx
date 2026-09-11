@@ -1,12 +1,12 @@
 "use client"
 
 import { useState } from "react"
-import { Copy, Check } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { CopyJsonButton } from "@/components/tools/copy-json-button"
 
 // V8-based engines (Chrome, Node) put the character offset of the syntax
 // error in the message as "...at position N". Convert that offset into a
@@ -32,7 +32,6 @@ export function JsonFormatter() {
   const [output, setOutput] = useState("")
   const [error, setError] = useState("")
   const [indentation, setIndentation] = useState("2")
-  const [copied, setCopied] = useState(false)
 
   const formatJson = () => {
     try {
@@ -79,12 +78,6 @@ export function JsonFormatter() {
     } catch (err) {
       setError(describeJsonError(err as Error, input))
     }
-  }
-
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(output)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
   }
 
   return (
@@ -143,19 +136,7 @@ export function JsonFormatter() {
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <Label>Result</Label>
-              <Button variant="ghost" size="sm" onClick={copyToClipboard} className="h-8">
-                {copied ? (
-                  <>
-                    <Check className="mr-2 h-4 w-4" />
-                    Copied
-                  </>
-                ) : (
-                  <>
-                    <Copy className="mr-2 h-4 w-4" />
-                    Copy
-                  </>
-                )}
-              </Button>
+              <CopyJsonButton value={output} />
             </div>
             <div className="flex bg-muted p-4 rounded-md overflow-x-auto">
               <pre
