@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Copy } from "lucide-react";
+import { CopyCssButton } from "@/components/tools/copy-css-button";
 import {
   Card,
   CardContent,
@@ -68,10 +68,6 @@ export function BoxShadowGenerator() {
   }${horizontalOffset}px ${verticalOffset}px ${blur}px ${spread}px ${shadowColor}`;
 
   const cssCode = `box-shadow: ${boxShadow};`;
-
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(cssCode);
-  };
 
   return (
     <div className="grid gap-8 lg:grid-cols-2">
@@ -245,29 +241,13 @@ export function BoxShadowGenerator() {
                 <pre className="bg-muted p-4 rounded-md overflow-x-auto">
                   <code>{cssCode}</code>
                 </pre>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="absolute top-2 right-2"
-                  onClick={copyToClipboard}
-                >
-                  <Copy className="h-4 w-4" />
-                  <span className="sr-only">Copy to clipboard</span>
-                </Button>
+                <CopyCssButton css={cssCode} className="absolute top-2 right-2" />
               </TabsContent>
               <TabsContent value="tailwind" className="relative">
                 <pre className="bg-muted p-4 rounded-md overflow-x-auto">
                   <code>{"/* Custom Tailwind CSS required */"}</code>
                 </pre>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="absolute top-2 right-2"
-                  onClick={copyToClipboard}
-                >
-                  <Copy className="h-4 w-4" />
-                  <span className="sr-only">Copy to clipboard</span>
-                </Button>
+                <CopyCssButton css={cssCode} className="absolute top-2 right-2" />
               </TabsContent>
             </Tabs>
           </CardContent>
